@@ -310,13 +310,15 @@ table.tbl { width: 100%; border-collapse: collapse; }
 .color-sw button { width: 26px; height: 26px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
 .color-sw button.on { border-color: var(--ink); }
 /* ---------- Tableta y pantallas táctiles ---------- */
-.topbar, .side-backdrop, .fab { display: none; }
+.topbar, .side-backdrop, .fab, .capture .btn-enviar { display: none; }
+.addrow .btn-enviar { margin: 4px -6px 4px 0; }
 .fab { position: fixed; right: 22px; bottom: 22px; z-index: 40; width: 58px; height: 58px; border-radius: 50%; border: 0; background: var(--acc); color: #fff; box-shadow: 0 8px 24px rgba(46,91,186,.45); align-items: center; justify-content: center; cursor: pointer; }
 .fantasma { box-shadow: 0 16px 36px rgba(28,29,33,.28); transform: rotate(-1.5deg); opacity: .95; background: var(--card); border-radius: 10px; }
 [data-drag] { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 [data-drag] input, [data-drag] textarea { -webkit-user-select: text; user-select: text; }
 @media (hover: none) {
   .fab { display: flex; }
+  .capture .btn-enviar { display: inline-flex; }
   .subs li .del, .timeline li .del { opacity: 1; }
   .iconbtn { width: 42px; height: 42px; }
   .btn { min-height: 44px; } .btn.sm { min-height: 40px; padding: 8px 13px; }

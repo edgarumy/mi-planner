@@ -93,9 +93,9 @@ const App = (() => {
   }
   function abrirAddCol(key) {
     const w = document.querySelector(`[data-addwrap="${CSS.escape(key)}"]`); if (!w) { UI.addCol = null; return; }
-    w.innerHTML = `<label class="sr" for="add-col">Nueva tarea</label><input id="add-col" class="add-inp" data-enter="crearEnColumna" data-v="${U.esc(key)}" placeholder="Título y Enter · Esc para cerrar" autocomplete="off">`;
+    w.innerHTML = `<label class="sr" for="add-col">Nueva tarea</label><div style="display:flex;gap:6px"><input id="add-col" class="add-inp" data-enter="crearEnColumna" enterkeyhint="done" data-v="${U.esc(key)}" placeholder="Título de la tarea" autocomplete="off"><button class="btn pri sm" data-a="enviarCampo" data-for="add-col">Agregar</button></div>`;
     const i = w.querySelector('input'); i.focus();
-    i.addEventListener('blur', () => setTimeout(() => { if (document.activeElement !== i && UI.addCol === key && !i.value) { UI.addCol = null; R(); } }, 150));
+    i.addEventListener('blur', () => setTimeout(() => { if (!document.activeElement?.closest?.(`[data-addwrap="${CSS.escape(key)}"]`) && UI.addCol === key && !i.value) { UI.addCol = null; R(); } }, 250));
   }
   async function descargar(blob, nombre) {
     const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = nombre; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 20000);
@@ -105,6 +105,7 @@ const App = (() => {
   const A = {
     abrir: d => { UI.tareaId = d.id; R(); },
     menu: () => { UI.menu = !UI.menu; R(); },
+    enviarCampo: d => { const el = document.getElementById(d.for); if (el?.dataset.enter) E[el.dataset.enter]?.(el.dataset, el); },
     filtros: () => { UI.filtrosAbiertos = !UI.filtrosAbiertos; R(); },
     colMovil: d => { UI.tablero.colMovil = d.v; R(); },
     fab: () => { UI.modal = { tipo: 'captura', destino: UI.vista === 'midia' ? 'midia' : 'bandeja' }; UI.focus = 'cap-modal'; R(); },
@@ -251,6 +252,7 @@ const App = (() => {
     dProyecto: (d, el) => { const t = T(d.id); const de = Model.proyecto(t.proyectoId)?.nombre || 'Sin proyecto'; const a = Model.proyecto(el.value)?.nombre || 'Sin proyecto'; Model.actualizar(t, { proyectoId: el.value || null }, `Proyecto: ${de} → ${a}.`); R(); },
     dPrio: (d, el) => { Model.actualizar(T(d.id), { prioridad: el.value || null }); R(); },
     dFecha: (d, el) => { const t = T(d.id); Model.actualizar(t, { fecha: el.value || null }, el.value ? `Fecha límite: ${U.fCorta(el.value)}.` : 'Fecha límite eliminada.'); R(); },
+    dSubSalir: (d, el) => { const v = el.value.trim(); if (!v) return; Model.agregarSub(T(d.id), v); el.value = ''; toast('Subtarea agregada'); R(); },
     dTags: (d, el) => { Model.actualizar(T(d.id), { etiquetas: el.value.split(/[,;]+/).map(s => s.trim().replace(/^[#+]/, '')).filter(Boolean) }); R(); },
     dAdjuntar: async (d, el) => { const t = T(d.id); const fs = [...el.files]; for (const f of fs) { try { await Model.agregarAdjunto(t, f); } catch (e) { toast('No se pudo guardar ' + f.name + ': ' + e.message); } } if (fs.length) toast(fs.length === 1 ? 'Archivo agregado' : `${fs.length} archivos agregados`); R(); }
   };
@@ -427,7 +429,7 @@ const App = (() => {
         UI.modal.sel = Math.max(0, Math.min(rs.length - 1, UI.modal.sel + (ev.key === 'ArrowDown' ? 1 : -1)));
         rs.forEach((r, i) => r.classList.toggle('sel', i === UI.modal.sel)); rs[UI.modal.sel].scrollIntoView({ block: 'nearest' }); return;
       }
-      if (ev.key === 'Enter' && !ev.shiftKey && el.matches?.('input[data-enter]') && !ev.isComposing) { ev.preventDefault(); E[el.dataset.enter]?.(el.dataset, el); return; }
+      if ((ev.key === 'Enter' || ev.keyCode === 13) && !ev.shiftKey && el.matches?.('input[data-enter]')) { ev.preventDefault(); E[el.dataset.enter]?.(el.dataset, el); return; }
       if (ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey) && el.matches?.('textarea[data-ctrlenter]')) { ev.preventDefault(); A[el.dataset.ctrlenter]?.(el.dataset, el); return; }
       if (!enCampo && !UI.modal && !ev.ctrlKey && !ev.metaKey && !ev.altKey && (ev.key === 'n' || ev.key === 'N') && Model.datos) {
         ev.preventDefault(); UI.modal = { tipo: 'captura', destino: UI.vista === 'midia' ? 'midia' : 'bandeja' }; UI.focus = 'cap-modal'; R();

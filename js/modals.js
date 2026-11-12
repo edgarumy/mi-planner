@@ -42,7 +42,7 @@ const MV = (() => {
             <button class="sbox" data-a="dSubToggle" data-id="${t.id}" data-v="${x.id}" aria-label="${x.hecha ? 'Desmarcar' : 'Marcar'} subtarea"><span>${x.hecha ? ic('check', 's14') : ''}</span></button>
             <input class="stxt" value="${e(x.texto)}" data-ch="dSubTexto" data-id="${t.id}" data-v="${x.id}" aria-label="Texto de la subtarea">
             <button class="iconbtn del" data-a="dSubQuitar" data-id="${t.id}" data-v="${x.id}" aria-label="Eliminar subtarea">${ic('x', 's14')}</button></li>`).join('')}</ul>
-          <div class="addrow">${ic('plus', 's16')}<label class="sr" for="d-sub">Agregar subtarea</label><input id="d-sub" data-enter="dSubAgregar" data-id="${t.id}" placeholder="Agregar subtarea y presionar Enter (agrega todas las que necesites)" autocomplete="off"></div></div>
+          <div class="addrow">${ic('plus', 's16')}<label class="sr" for="d-sub">Agregar subtarea</label><input id="d-sub" data-enter="dSubAgregar" enterkeyhint="done" data-id="${t.id}" placeholder="Nueva subtarea" autocomplete="off" data-ch="dSubSalir"><button class="btn pri sm btn-enviar sub-btn" data-a="enviarCampo" data-for="d-sub">Agregar</button></div></div>
         <div class="card"><div style="display:flex;align-items:center;gap:10px"><h2>Bitácora</h2><span class="muted small">el hilo de la tarea</span></div>
           <div style="display:flex;gap:8px;align-items:flex-start"><label class="sr" for="d-nota">Nueva nota</label><textarea id="d-nota" class="inp" rows="2" data-ctrlenter="dNota" data-id="${t.id}" placeholder="¿Qué pasó hoy con esta tarea?  (Ctrl+Enter para guardar)"></textarea>
           <button class="btn pri" data-a="dNota" data-id="${t.id}">Guardar</button></div>
@@ -61,7 +61,7 @@ const MV = (() => {
           ${t.adjuntos.map(a => `<div class="att">${ic('clip', 's16')}<span class="nm" title="${e(a.nombre)}">${e(a.nombre)}</span><button class="iconbtn" data-a="dAbrirAdj" data-id="${t.id}" data-v="${a.id}" title="Abrir" aria-label="Abrir ${e(a.nombre)}">${ic('open', 's16')}</button><button class="iconbtn" data-a="dQuitarAdj" data-id="${t.id}" data-v="${a.id}" aria-label="Eliminar adjunto">${ic('x', 's14')}</button></div>`).join('')}
           ${t.enlaces.map((l, i) => `<div class="att">${ic('link', 's16')}<a class="nm" href="${e(l.url)}" target="_blank" rel="noopener">${e(l.titulo || l.url)}</a><button class="iconbtn" data-a="dQuitarEnlace" data-id="${t.id}" data-v="${i}" aria-label="Quitar enlace">${ic('x', 's14')}</button></div>`).join('')}
           <label class="btn sm" style="align-self:flex-start;border-style:dashed">${ic('plus', 's16')}Agregar archivo<input type="file" multiple data-ch="dAdjuntar" data-id="${t.id}" class="sr"></label>
-          <div class="addrow">${ic('link', 's16')}<label class="sr" for="d-link">Agregar enlace</label><input id="d-link" data-enter="dEnlace" data-id="${t.id}" placeholder="Pega una URL y Enter" autocomplete="off"></div>
+          <div class="addrow">${ic('link', 's16')}<label class="sr" for="d-link">Agregar enlace</label><input id="d-link" data-enter="dEnlace" enterkeyhint="done" data-id="${t.id}" placeholder="Pega una dirección web" autocomplete="off"><button class="btn pri sm btn-enviar" data-a="enviarCampo" data-for="d-link">Agregar</button></div>
           <span class="muted small">Los archivos se copian a ${e(M().backend?.nombre || '')}\\adjuntos\\${t.id}\\</span></div>
       </aside></div></div>`;
   }
@@ -71,7 +71,7 @@ const MV = (() => {
     return `<div class="modal sm" role="dialog" aria-modal="true" aria-label="${m.urgente ? 'Agregar urgencia' : 'Captura rápida'}">
       <div class="modal-h"><h2 style="font-size:18px">${m.urgente ? ic('bolt') + ' Agregar urgencia' : 'Captura rápida'}</h2><button class="iconbtn x" data-a="cerrarModal" aria-label="Cerrar">${ic('x')}</button></div>
       ${m.urgente ? '<p class="muted small" style="margin:0">Entra directo a Mi día, marcada como urgente y sin contar en tus 10 prioridades.</p>' : ''}
-      <div class="capture">${ic('plus', 's20')}<label class="sr" for="cap-modal">Tarea</label><input id="cap-modal" data-enter="capturaModal" autocomplete="off" placeholder="Escribe la tarea…  #proyecto !alta @viernes >persona"></div>
+      <div class="capture">${ic('plus', 's20')}<label class="sr" for="cap-modal">Tarea</label><input id="cap-modal" data-enter="capturaModal" enterkeyhint="done" autocomplete="off" placeholder="Escribe la tarea…  #proyecto !alta @viernes >persona"></div>
       ${m.urgente ? '' : `<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center"><span class="lab">Enviar a</span><div class="seg">${[['bandeja', 'Bandeja'], ['porhacer', 'Por hacer'], ['midia', 'Mi día']].map(([k, l]) => `<button class="${m.destino === k ? 'on' : ''}" data-a="capDestino" data-v="${k}">${l}</button>`).join('')}</div></div>`}
       <div class="hints"><span><b>#proyecto</b></span><span><b>!alta</b></span><span><b>@viernes</b> / <b>@15/11</b></span><span><b>&gt;persona</b> = en espera</span><span><b>*habiles</b> = recurrente</span></div>
       <div style="display:flex;justify-content:flex-end;gap:8px"><button class="btn" data-a="cerrarModal">Cancelar</button><button class="btn pri" data-a="capturaModal">Agregar</button></div></div>`;
@@ -149,8 +149,8 @@ const MV = (() => {
     const t = M().get(m.id);
     return `<div class="modal sm" role="dialog" aria-modal="true" aria-label="Mover a En espera">
       <div class="modal-h"><div><h2 style="font-size:18px">Moviste la tarea a En espera</h2><span class="muted small">${e(t?.titulo || '')}</span></div><button class="iconbtn x" data-a="cerrarModal" aria-label="Cerrar">${ic('x')}</button></div>
-      <div><label class="lbl" for="w-persona">¿A quién esperas?</label><input id="w-persona" class="inp" placeholder="Persona o equipo" value="${e(t?.espera?.persona || '')}" data-enter="esperaOk"></div>
-      <div><label class="lbl" for="w-motivo">¿Qué esperas? (opcional)</label><input id="w-motivo" class="inp" placeholder="Ej. respuesta del proveedor" value="${e(t?.espera?.motivo || '')}" data-enter="esperaOk"></div>
+      <div><label class="lbl" for="w-persona">¿A quién esperas?</label><input id="w-persona" class="inp" placeholder="Persona o equipo" value="${e(t?.espera?.persona || '')}" data-enter="esperaOk" enterkeyhint="done"></div>
+      <div><label class="lbl" for="w-motivo">¿Qué esperas? (opcional)</label><input id="w-motivo" class="inp" placeholder="Ej. respuesta del proveedor" value="${e(t?.espera?.motivo || '')}" data-enter="esperaOk" enterkeyhint="done"></div>
       <div><label class="lbl" for="w-seg">Volver a preguntar</label><input id="w-seg" type="date" class="inp" value="${e(t?.espera?.seguimiento || U.addDias(U.hoy(), 2))}"></div>
       <div style="display:flex;justify-content:flex-end;gap:8px"><button class="btn" data-a="esperaOmitir">Omitir</button><button class="btn warn" data-a="esperaOk">Listo</button></div></div>`;
   }

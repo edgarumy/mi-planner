@@ -1,7 +1,7 @@
 /* Service worker: permite abrir Mi Planner sin internet.
    Estrategia: primero la red (para recibir actualizaciones) y, si no hay conexión, la copia guardada.
    Solo guarda los archivos de la app; tus datos siguen en tu carpeta. */
-const CACHE = 'mi-planner-v3';
+const CACHE = 'mi-planner-v4';
 const ARCHIVOS = ['./', './index.html', './css/app.css', './manifest.webmanifest', './img/icono-192.png', './img/icono-512.png',
   './js/util.js', './js/storage.js', './js/model.js', './js/xlsx.js', './js/export.js', './js/views.js', './js/modals.js', './js/app.js'];
 
