@@ -1,0 +1,108 @@
+MI PLANNER — versión 1.2
+========================
+
+Control de actividades diarias. Funciona sin internet, sin instalar nada y sin
+servidor. Todo se guarda en archivos dentro de una carpeta de tu computadora;
+el navegador no guarda tus datos (solo recuerda el acceso a la carpeta).
+
+
+1. CÓMO EMPEZAR
+---------------
+1) Descomprime el zip donde quieras (por ejemplo C:\MiPlanner).
+2) Abre index.html con Microsoft Edge o Google Chrome
+   (clic derecho > Abrir con > Microsoft Edge).
+3) Da clic en "Elegir carpeta" y elige la carpeta "datos" que viene junto a
+   index.html. Acepta el permiso de edición.
+4) En los días siguientes, al abrir la app solo das un clic en "Abrir datos"
+   (el navegador confirma el permiso en cada sesión).
+
+Para abrirla con un clic:
+- Arrastra index.html a la barra de favoritos de Edge, o
+- En Edge: Configuración > Inicio > "Abrir una página específica" y pega la
+  ruta, por ejemplo  file:///C:/MiPlanner/index.html
+
+Nota: Firefox no permite guardar en carpetas locales; usa Edge o Chrome.
+En iPhone y iPad no funciona (Safari no permite guardar en carpetas).
+
+TABLETA O CELULAR ANDROID: la app se abre desde una dirección web y se
+instala como app. Se adapta sola al tamaño de la pantalla. Lee PUBLICAR-EN-GITHUB.txt. Necesita Chrome 132 o superior.
+
+
+2. QUÉ HAY EN LA CARPETA DE DATOS
+---------------------------------
+  planner.json          Tus tareas, proyectos, recurrentes y el plan del día.
+  archivo\2026.json     Tareas cerradas hace más de 90 días (se mueven solas
+                        para que la app siga rápida; la búsqueda y la
+                        exportación las siguen incluyendo).
+  adjuntos\T-0042\      Archivos que adjuntas a cada tarea.
+  respaldos\            Copia diaria automática de planner.json (últimos 14 días).
+  exportaciones\        Copia de cada Excel que generas.
+  bandeja-movil.txt     Captura desde el celular (ver punto 4).
+
+Para restaurar un respaldo: cierra la app, copia el archivo de respaldos\ y
+renómbralo a planner.json en la carpeta de datos.
+
+
+3. ATAJOS Y CAPTURA RÁPIDA
+--------------------------
+  N           Captura rápida desde cualquier pantalla
+  Ctrl + K    Buscar (títulos, bitácoras, subtareas, adjuntos; incluye cerradas)
+  Esc         Cerrar ventana
+  Ctrl+Enter  Guardar nota en la bitácora
+
+Al escribir una tarea puedes usar:
+  #proyecto      asigna proyecto (si no existe, lo crea)   ej. #oauth
+  !alta          prioridad (!alta, !media, !baja)
+  @viernes       fecha (@hoy, @mañana, @lunes, @15/11, @2026-12-01)
+  >persona       la deja En espera de esa persona          ej. >Seguridad_TI
+  *habiles       la vuelve recurrente (*diario, *habiles, *semanal, *mensual)
+  +etiqueta      agrega una etiqueta
+
+Usa guion bajo para nombres con espacios: #Blue_Yonder  >Juan_Pérez
+
+
+4. CAPTURA DESDE EL CELULAR (opcional)
+--------------------------------------
+Si pones la carpeta "datos" dentro de tu OneDrive corporativo, el archivo
+bandeja-movil.txt aparecerá en la app de OneDrive del celular. Escribe ahí una
+tarea por línea; al abrir la app en la laptop verás un aviso para pasarlas a la
+Bandeja, y el archivo se vacía solo.
+Antes de hacerlo, confirma que tu empresa permite editar archivos de OneDrive
+desde tu celular.
+
+
+5. CÓMO FUNCIONA EL DÍA A DÍA
+-----------------------------
+- Mi día: tu lista de hoy en el orden que quieras (arrastra). Hasta 10
+  prioridades; las urgencias no cuentan en ese límite.
+- Planear el día: revisa lo que quedó del último día, lo que vence, las
+  recurrentes y los seguimientos de En espera. Vuelve cuando quieras desde
+  Mi día > Ajustar plan.
+- Tareas: tres vistas (Cuadrícula, Tablero, Calendario). En el tablero
+  arrastra una tarjeta a otra columna y su estado cambia solo.
+- En espera: para tareas bloqueadas por alguien, con fecha para volver a
+  preguntar.
+- Parking Lot: ideas y solicitudes sin fecha ni compromiso. No aparecen en
+  Mi día; se recomienda revisarlo una vez al mes.
+- Recurrentes: se crean solas según su frecuencia. Si un día no la
+  completas, se reemplaza con la del día siguiente o se acumula (tú eliges).
+- Exportar a Excel: desde Tareas > Cuadrícula. Incluye hoja de resumen.
+- Historial de hechas: en Tareas > Cuadrícula marca el estado "Hecho" y
+  aparece el selector (historial completo, esta semana, este mes, este año
+  o un rango de fechas).
+
+
+6. EN PANTALLAS TÁCTILES
+------------------------
+- Para arrastrar (tareas, subtareas, tarjetas, fechas en el calendario):
+  mantén presionado medio segundo hasta que la tarjeta se levante y muévela.
+- El botón azul "+" abajo a la derecha es la captura rápida.
+- En vertical, el menú se abre con el botón de tres líneas arriba a la izquierda.
+
+En el celular la app cambia algunas vistas para que quepan:
+- Los filtros se esconden detrás del botón "Filtros".
+- Tablero: una columna a la vez con pestañas arriba. Para mover una tarjeta
+  a otro estado, mantenla presionada y suéltala sobre la pestaña destino.
+- Calendario: se ve como agenda (lista por día). Arrastra una tarea a otro
+  día para cambiar su fecha.
+- Cuadrícula: lista de tarjetas con un selector "Ordenar por".
